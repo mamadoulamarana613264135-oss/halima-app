@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>HalimaEntreprise App</title>
     
-    <!-- Configuration Mode Application Mobile -->
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="HalimaApp">
@@ -23,14 +22,14 @@
         input, select { padding: 12px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 14px; background: #fff; -webkit-appearance: none; }
         .table-responsive { overflow-x: auto; margin-top: 15px; }
         
-        /* Style strict du tableau demandé */
         table { width: 100%; border-collapse: collapse; min-width: 500px; margin-bottom: 15px; }
         th, td { padding: 12px; border: 1px solid #cbd5e1; text-align: left; font-size: 14px; }
         th { background: #f1f5f9; font-weight: bold; color: #0f172a; }
         input.table-input { width: 95%; padding: 8px; border: 1px solid #cbd5e1; border-radius: 4px; font-size: 14px; }
-        .row-total { font-weight: bold; color: #0f172a; padding: 8px; display: inline-block; }
+        .row-total { font-weight: bold; color: #0f172a; }
         
-        .btn { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; width: 100%; margin-top: 10px; }
+        .btn { background: var(--primary); color: white; border: none; padding: 14px; border-radius: 6px; cursor: pointer; font-weight: 600; font-size: 14px; width: 100%; margin-top: 10px; display: block; text-align: center; }
+        .btn-danger { background: #ef4444; padding: 6px 10px; font-size: 12px; width: auto; margin: 0; }
         .totals { margin-top: 20px; background: #f8fafc; padding: 15px; border-radius: 6px; border: 1px solid #e2e8f0; }
         .total-row { display: flex; justify-content: space-between; margin-bottom: 8px; font-size: 14px; }
         .total-row.grand-total { font-weight: bold; font-size: 16px; border-top: 2px solid #cbd5e1; padding-top: 8px; color: #0f172a; }
@@ -47,7 +46,6 @@
 <div class="container">
     <h1 class="no-print" style="text-align: center; color: var(--primary); font-size: 1.4rem; margin-bottom: 20px;">HalimaEntreprise</h1>
     
-    <!-- Infos d'en-tête -->
     <div class="grid">
         <div>
             <h2>Votre Entreprise</h2>
@@ -61,47 +59,33 @@
         </div>
     </div>
 
-    <!-- Le Tableau demandé -->
     <h2>Détail des Prestations</h2>
     <div class="table-responsive">
         <table id="itemsTable">
             <thead>
                 <tr>
                     <th>Désignation</th>
-                    <th style="width: 70px;">Qté</th>
+                    <th style="width: 60px;">Qté</th>
                     <th style="width: 110px;">Prix Unitaire HT (€)</th>
                     <th style="width: 110px;">Prix HT (€)</th>
+                    <th class="no-print" style="width: 70px;">Action</th>
                 </tr>
             </thead>
             <tbody id="tableBody">
-                <!-- Ligne exemple vide 1 -->
                 <tr>
                     <td><input type="text" class="table-input" placeholder="Ex: Pose de la tuyauterie"></td>
-                    <td><input type="number" class="table-input qte" value="" placeholder="0" oninput="calculateTotals()"></td>
-                    <td><input type="number" class="table-input pu" value="" placeholder="0.00" oninput="calculateTotals()"></td>
-                    <td><span class="row-total">0.00</span></td>
-                </tr>
-                <!-- Ligne exemple vide 2 -->
-                <tr>
-                    <td><input type="text" class="table-input" placeholder="Ex: Raccordement sanitaire"></td>
-                    <td><input type="number" class="table-input qte" value="" placeholder="0" oninput="calculateTotals()"></td>
-                    <td><input type="number" class="table-input pu" value="" placeholder="0.00" oninput="calculateTotals()"></td>
-                    <td><span class="row-total">0.00</span></td>
-                </tr>
-                <!-- Ligne exemple vide 3 -->
-                <tr>
-                    <td><input type="text" class="table-input" placeholder="Ex: Main d'œuvre"></td>
-                    <td><input type="number" class="table-input qte" value="" placeholder="0" oninput="calculateTotals()"></td>
-                    <td><input type="number" class="table-input pu" value="" placeholder="0.00" oninput="calculateTotals()"></td>
-                    <td><span class="row-total">0.00</span></td>
+                    <td><input type="number" class="table-input qte" value="1" oninput="calculateTotals()"></td>
+                    <td><input type="number" class="table-input pu" value="0" oninput="calculateTotals()"></td>
+                    <td><span class="row-total">0.00</span> €</td>
+                    <td class="no-print"><button class="btn btn-danger" onclick="deleteRow(this)">Suppr</button></td>
                 </tr>
             </tbody>
         </table>
     </div>
     
-    <button class="btn no-print" style="background: #64748b; margin-bottom: 15px;" onclick="addRow()">+ Ajouter une ligne au tableau</button>
+    <!-- Bouton d'ajout configuré -->
+    <button type="button" class="btn no-print" style="background: #64748b; margin-bottom: 15px;" onclick="addRow()">+ Ajouter une ligne au tableau</button>
 
-    <!-- Section des totaux -->
     <div class="totals">
         <div class="total-row"><span>Total Général HT :</span><span id="totalDevis">0.00 €</span></div>
         <div class="total-row">
@@ -115,8 +99,7 @@
         <div class="total-row grand-total"><span>Total TTC :</span><span id="grandTotal">0.00 €</span></div>
     </div>
 
-    <!-- Actions -->
-    <button class="btn no-print" onclick="window.print()">Créer le PDF / Imprimer</button>
+    <button type="button" class="btn no-print" onclick="window.print()">Créer le PDF / Imprimer</button>
 </div>
 
 <script>
@@ -125,11 +108,18 @@
         const tr = document.createElement('tr');
         tr.innerHTML = `
             <td><input type="text" class="table-input" placeholder="Nouvelle prestation"></td>
-            <td><input type="number" class="table-input qte" value="" placeholder="0" oninput="calculateTotals()"></td>
-            <td><input type="number" class="table-input pu" value="" placeholder="0.00" oninput="calculateTotals()"></td>
-            <td><span class="row-total">0.00</span></td>
+            <td><input type="number" class="table-input qte" value="1" oninput="calculateTotals()"></td>
+            <td><input type="number" class="table-input pu" value="0" oninput="calculateTotals()"></td>
+            <td><span class="row-total">0.00</span> €</td>
+            <td class="no-print"><button class="btn btn-danger" onclick="deleteRow(this)">Suppr</button></td>
         `;
         tbody.appendChild(tr);
+        calculateTotals();
+    }
+
+    function deleteRow(btn) {
+        btn.closest('tr').remove();
+        calculateTotals();
     }
 
     function calculateTotals() {
@@ -138,13 +128,16 @@
         let globalHT = 0;
 
         rows.forEach(row => {
-            const qte = parseFloat(row.querySelector('.qte').value) || 0;
-            const pu = parseFloat(row.querySelector('.pu').value) || 0;
+            const qteInput = row.querySelector('.qte');
+            const puInput = row.querySelector('.pu');
             
-            const totalLigne = qte * pu;
-            globalHT += totalLigne;
-
-            row.querySelector('.row-total').innerText = totalLigne.toFixed(2);
+            if(qteInput && puInput) {
+                const qte = parseFloat(qteInput.value) || 0;
+                const pu = parseFloat(puInput.value) || 0;
+                const totalLigne = qte * pu;
+                globalHT += totalLigne;
+                row.querySelector('.row-total').innerText = totalLigne.toFixed(2);
+            }
         });
 
         const tvaAmount = globalHT * tvaRate;
